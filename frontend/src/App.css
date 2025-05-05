@@ -1,0 +1,132 @@
+/* frontend/src/App.css */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #00bcd4 0%, #00897b 100%); /* Cyan to Teal */
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.app-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px; /* More rounded corners */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Softer, larger shadow */
+  width: 100%;
+  max-width: 550px; /* Slightly wider */
+  margin-top: 40px;
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50; /* Darker, more professional heading color */
+  margin-bottom: 30px; /* More space below heading */
+}
+
+.todo-form {
+  display: flex;
+  margin-bottom: 25px;
+}
+
+.todo-input {
+  flex-grow: 1;
+  padding: 12px 18px; /* More padding */
+  border: 1px solid #bdc3c7; /* Light grey border */
+  border-radius: 6px 0 0 6px; /* Rounded left corners */
+  font-size: 1rem;
+  transition: border-color 0.3s ease; /* Smooth border transition on focus */
+}
+
+.todo-input:focus {
+  outline: none;
+  border-color: #3498db; /* Blue focus color */
+  box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3); /* Subtle focus shadow */
+}
+
+.add-button {
+  padding: 12px 22px; /* More padding */
+  background-color: #3498db; /* Nice blue button */
+  color: white;
+  border: none;
+  border-radius: 0 6px 6px 0; /* Rounded right corners */
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover transitions */
+}
+
+.add-button:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+  transform: scale(1.02); /* Slight scale up on hover */
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px; /* More padding */
+  border-bottom: 1px solid #ecf0f1; /* Light grey separator */
+  transition: background-color 0.3s ease;
+}
+
+.todo-item:last-child {
+  border-bottom: none;
+}
+
+.todo-item:hover {
+  background-color: #f5f5f5; /* Light grey hover */
+}
+
+.todo-text {
+  flex-grow: 1;
+  cursor: pointer; /* For toggling completion */
+  margin-right: 15px;
+  word-break: break-word; /* Prevent long text overflowing */
+  color: #333;
+  font-size: 1.05rem; /* Slightly larger text */
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: #95a5a6; /* Muted color for completed */
+}
+
+.delete-button {
+  background-color: #e74c3c; /* Red delete button */
+  color: white;
+  border: none;
+  border-radius: 6px; /* More rounded */
+  padding: 8px 12px; /* More padding */
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.delete-button:hover {
+  background-color: #c0392b; /* Darker red on hover */
+  transform: scale(1.05); /* Slight scale up on hover */
+}
+
+.error-message {
+  color: #e74c3c;
+  text-align: center;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+/* Optional: Style for the "No todos yet!" message */
+.todo-list p {
+  color: #7f8c8d;
+  font-style: italic;
+  text-align: center;
+  padding: 15px;
+}
