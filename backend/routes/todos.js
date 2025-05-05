@@ -6,13 +6,13 @@ const Todo = require('../models/Todo');
 //get all Todos
 router.get('/', async (req, res) => {
     try {
-        const todos = await Todo.find().sort({ createdAt: -1 }); // Get newest first
-        res.json(todos);
+      const todos = await Todo.find().sort({ createdAt: -1 });
+      res.json(todos); // This will send the array of todos as JSON
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
+      console.error(err.message);
+      res.status(500).send('Server Error');
     }
-});
+  });
 
 //post a new Todo
 router.post('/', async (req, res) => {
