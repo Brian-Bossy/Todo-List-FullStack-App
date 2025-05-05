@@ -21,18 +21,18 @@ function App() {
       setError(null);
       try {
         const response = await axios.get(API_URL);
-        setTodos(response.data);
+        setTodos(response.data); // Assuming response.data is the array
       } catch (err) {
         console.error("Error fetching todos:", err);
         setError('Failed to load todos. Please try refreshing.');
+        setTodos([]); // Important: Set todos to an empty array on error
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchTodos();
-  }, []); // Empty dependency array means run once on mount
-
+  }, []);
   // --- Handle Input Change ---
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
