@@ -11,6 +11,8 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editingTodoId, setEditingTodoId] = useState(null); // New state for tracking the editing todo's ID
+  const [editText, setEditText] = useState(''); // New state for the edited text
 
   // --- Fetch Todos ---
   useEffect(() => {
@@ -46,15 +48,15 @@ function App() {
       setTodos([...todos, response.data]); // Add the new todo to the list
       setInputValue(''); // Clear the input field
     } catch (err) {
-       console.error("Error adding todo:", err);
-       setError('Failed to add todo.'); // Show error to user
+      console.error("Error adding todo:", err);
+      setError('Failed to add todo.'); // Show error to user
     }
   };
 
-   // --- Handle Toggle Complete (Optional) ---
-   const handleToggleComplete = async (id) => {
+  // --- Handle Toggle Complete (Optional) ---
+  const handleToggleComplete = async (id) => {
     try {
-      const response = await axios.put(`<span class="math-inline">\{API\_URL\}/</span>{id}`);
+      const response = await axios.put(`${API_URL}/${id}`, { isCompleted: !todos.find(todo => todo._id === id)?.isCompleted });
       setTodos(todos.map(todo =>
         todo._id === id ? { ...todo, isCompleted: response.data.isCompleted } : todo
       ));
@@ -64,7 +66,35 @@ function App() {
     }
   };
 
-  // --- Handle Delete Todo (Optional) ---
+  // --- Handle Edit Todo ---
+  const handleEditTodo = (id, text) => {
+    setEditingTodoId(id);
+    setEditText(text);
+  };
+
+  // --- Handle Save Edit ---
+  const handleSaveEdit = async (id, newText) => {
+    try {
+      const response = await axios.put(`${API_URL}/${id}`, { text: newText });
+      if (response.status === 200) {
+        setTodos(
+          todos.map((todo) =>
+            todo._id === id ? { ...todo, text: response.data.text } : todo
+          )
+        );
+        setEditingTodoId(null); // Exit edit mode
+        setEditText(''); // Clear the edit text
+      } else {
+        console.error('Failed to update todo:', response.statusText);
+        setError('Failed to update todo.');
+      }
+    } catch (err) {
+      console.error("Error updating todo:", err);
+      setError('Failed to update todo.');
+    }
+  };
+
+  // --- Handle Delete Todo ---
   const handleDeleteTodo = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`); // Corrected URL construction
@@ -101,12 +131,36 @@ function App() {
           {todos.length === 0 && !loading && <p>No todos yet! Add one above.</p>}
           {todos.map((todo) => (
             <li key={todo._id} className={`todo-item ${todo.isCompleted ? 'completed' : ''}`}>
-              <span onClick={() => handleToggleComplete(todo._id)} className="todo-text">
-                 {todo.text}
-              </span>
-              <button onClick={() => handleDeleteTodo(todo._id)} className="delete-button">
-                X
-              </button>
+              {editingTodoId === todo._id ? (
+                <>
+                  <input
+                    type="text"
+                    className="edit-input"
+                    value={editText}
+                    onChange={(e) => setEditText(e.target.value)}
+                  />
+                  <button onClick={() => handleSaveEdit(todo._id, editText)} className="save-button">
+                    Save
+                  </button>
+                  <button onClick={() => setEditingTodoId(null)} className="cancel-button">
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <>
+                  <span onClick={() => handleToggleComplete(todo._id)} className="todo-text">
+                    {todo.text}
+                  </span>
+                  <div className="todo-actions">
+                    <button onClick={() => handleEditTodo(todo._id, todo.text)} className="edit-button">
+                      Edit
+                    </button>
+                    <button onClick={() => handleDeleteTodo(todo._id)} className="delete-button">
+                      X
+                    </button>
+                  </div>
+                </>
+              )}
             </li>
           ))}
         </ul>

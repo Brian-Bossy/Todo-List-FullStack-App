@@ -38,22 +38,25 @@ router.post('/', async (req, res) => {
 
 //update Todo
 router.put('/:id', async (req, res) => {
+    const { text } = req.body;
+  
     try {
-        let todo = await Todo.findById(req.params.id);
-        if (!todo) return res.status(404).json({ msg: 'Todo not found' });
-
-        // Simple toggle example:
-        todo.isCompleted = !todo.isCompleted;
-        // Or you could pass { isCompleted: true/false } in the req.body
-
-        await todo.save();
-        res.json(todo);
+      let todo = await Todo.findById(req.params.id);
+      if (!todo) {
+        return res.status(404).json({ msg: 'Todo not found' });
+      }
+  
+      if (text) {
+        todo.text = text; // Update the text if it's provided in the body
+      }
+  
+      await todo.save();
+      res.json(todo);
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
+      console.error(err.message);
+      res.status(500).send('Server Error');
     }
-});
-
+  });
 
 //Delete a Todo
 router.delete('/:id', async (req, res) => {
