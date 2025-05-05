@@ -4,7 +4,7 @@ import axios from 'axios'; // Or use fetch
 import './App.css'; // For basic styling
 
 // Define the backend API URL
-const API_URL = 'https://todo-list-fullstack-app-backend.onrender.com'; // Match backend port
+const API_URL = 'https://todo-list-fullstack-app-backend.onrender.com/api/todos'
 
 function App() {
   const [todos, setTodos] = useState([]);
